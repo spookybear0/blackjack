@@ -1,0 +1,242 @@
+
+
+class BlackjackGame {
+    field Deck deck;
+    field Player player;
+    field Dealer dealer;
+
+    field int playerStartingMoney;
+    field int playerBet;
+
+    /*
+    * Constructor for the BlackjackGame class
+    * @return a new BlackjackGame object
+    */
+    constructor BlackjackGame new() {
+        // constants
+        let playerStartingMoney = 100;
+        let playerBet = 10;
+
+        let deck = Deck.new();
+        let player = Player.new(playerStartingMoney, playerBet);
+        let dealer = Dealer.new();
+
+        return this;
+    }
+
+    /*
+    * Main method for the BlackjackGame class
+    */
+    method void dealInitialCards() {
+        // shuffle the deck
+
+        do deck.shuffle();
+
+        // Deal two cards to the player
+        // and two cards to the dealer
+
+        do player.addToHand(deck.dealCard());
+        do dealer.addToHand(deck.dealCard());
+        do player.addToHand(deck.dealCard());
+        do dealer.addToHand(deck.dealCard());
+
+        return;
+    }
+
+    /*
+    * Method to draw the UI, including the cards, the player's money, and the player's bet
+    */
+    method void drawUI() {
+        do Output.moveCursor(0, 24);
+        do Output.printString("Dealer's Hand: ");
+        do Output.printInt(dealer.getHandValue());
+
+        do Output.moveCursor(12, 24);
+        do Output.printString("Player's Hand: ");
+        do Output.printInt(player.getHandValue());
+
+        do Output.moveCursor(21, 0);
+        do Output.printString("Press 'h' to hit, 's' to stand, 'd' to double down, 'q' to quit");
+        do Output.println();
+        do Output.printString("Seed: ");
+        do Output.printInt(Random.getSeed());
+
+        // display the cards
+
+        do dealer.drawHand();
+        do player.drawHand();
+
+        // display the bets
+
+        do Output.moveCursor(0, 54);
+        do Output.printString("Money: ");
+        do Output.printInt(player.getMoney());
+        do Output.moveCursor(1, 54);
+        do Output.printString("Bet:   ");
+        do Output.printInt(player.getBet());
+
+        return;
+    }
+
+    /*
+    * Main method that allows the player to play the game
+    */
+    method void play() {
+        var char input;
+        var boolean breakInputLoop;
+        var int key;
+        var boolean handOver;
+
+        do Sys.wait(1000);
+
+        while (true) {
+            let breakInputLoop = false;
+
+            // deal initial cards
+            do dealInitialCards();
+
+            // draw the UI
+
+            do drawUI();
+
+            // display the cards
+
+            do dealer.drawHand();
+            do player.drawHand();
+
+            // check for blackjack
+
+            if (dealer.getHandValue() = 21) {
+                do Output.moveCursor(10, 14);
+                do Output.printString("Dealer has blackjack! Press any key to continue...");
+                do player.lose();
+                do Sys.wait(3000);
+                do player.resetHand();
+                do dealer.resetHand();
+                do Screen.clearScreen();
+                let handOver = true;
+            }
+
+            else {
+                if (player.getHandValue() = 21) {
+                    do Output.moveCursor(10, 14);
+                    do Output.printString("Blackjack! Press any key to continue...");
+                    do player.winBlackjack();
+                    do Sys.wait(3000);
+                    do player.resetHand();
+                    do dealer.resetHand();
+                    do Screen.clearScreen();
+                    let handOver = true;
+                }
+            }
+
+            if (~handOver) {
+
+                // player's turn
+
+                while ((player.getHandValue() < 21) & (~breakInputLoop)) {
+                    let input = Keyboard.keyPressed();
+
+                    if (input = 72) { // 'h'
+                        do player.addToHand(deck.dealCard());
+                        do drawUI();
+
+                        if (player.getHandValue() > 21) {
+                            // player busts
+                            let breakInputLoop = true;
+                        }
+                    }
+                    else {
+                        if (input = 83) { // 's'
+                            let breakInputLoop = true;
+                        }
+                        else {
+                            if (input = 68) { // 'd'
+                                do player.addToHand(deck.dealCard());
+                                do drawUI();
+                                do player.doubleDown();
+                                let breakInputLoop = true;
+                            }
+                            else {
+                                if (input = 81) { // 'q'
+                                    return;
+                                }
+                            }
+                        }
+                    }
+
+                    do Sys.wait(100);
+                }
+
+                // dealer's turn
+
+                do dealer.setShowFirstCard(true);
+                do drawUI();
+
+                while (dealer.getHandValue() < 17) {
+                    do dealer.addToHand(deck.dealCard());
+                    do drawUI();
+                    do Sys.wait(50);
+                }
+
+                do drawUI();
+
+                // determine the winner
+
+                if (player.getHandValue() > 21) {
+                    // player busts
+                    do Output.moveCursor(10, 14);
+                    do Output.printString("Player busts! Press any key to continue...");
+                    do player.lose();
+                }
+                else {
+                    if (dealer.getHandValue() > 21) {
+                        // dealer busts
+                        do Output.moveCursor(10, 14);
+                        do Output.printString("Dealer busts! Press any key to continue...");
+                        do player.win();
+                    }
+                    else {
+                        if (player.getHandValue() > dealer.getHandValue()) {
+                            // player wins
+                            do Output.moveCursor(10, 14);
+                            do Output.printString("Player wins! Press any key to continue...");
+                            do player.win();
+                        }
+                        else {
+                            if (player.getHandValue() < dealer.getHandValue()) {
+                                // dealer wins
+                                do Output.moveCursor(10, 14);
+                                do Output.printString("Dealer wins! Press any key to continue...");
+                                do player.lose();
+                            }
+                            else {
+                                // tie
+                                do Output.moveCursor(10, 14);
+                                do Output.printString("Push! Press any key to continue...");
+                            }
+                        }
+                    }
+                }
+            }
+
+            do Sys.wait(3000);
+
+            // wait for a key press
+
+            while (key = 0) {
+                let key = Keyboard.keyPressed();
+                do Sys.wait(20);
+            }
+
+            do player.resetHand();
+            do dealer.resetHand();
+
+            do Screen.clearScreen();
+
+            do Sys.wait(1000);
+        }
+
+        return;
+    }
+}

@@ -1,0 +1,51 @@
+
+
+class Random {
+    static int seed;
+    static Random instance;
+
+    function void setSeed(int seed_) {
+        let seed = seed_;
+        return;
+    }
+
+    function int getSeed() {
+        return seed;
+    }
+
+    function int remainder(int a, int b) {
+        if (a < b) {
+            return a;
+        } else {
+            return Random.remainder(a - b, b);
+        }
+    }
+
+    function int rand() {
+        // values don't exceed 32767
+        let seed = seed + 20251;
+        if (seed < 0) {
+            do Random.setSeed(seed - 32767 - 1);
+        }
+
+        return seed;
+    }
+
+    function int randomInt(int upper) {
+        var int mask;
+        var int result;
+        let mask = 1;
+
+        while (mask < upper) {
+            let mask = mask * 2 + 1;
+        }
+
+        let result = Random.rand() & mask;
+
+        while (result > upper) {
+            let result = Random.rand() & mask;
+        }
+
+        return result;
+    }
+}

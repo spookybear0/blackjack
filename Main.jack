@@ -1,0 +1,32 @@
+
+
+class Main {
+    function void main() {
+        var BlackjackGame game;
+        var int key;
+        var int startSeed;
+
+        // wait for user input to start the game
+
+        do Output.moveCursor(10, 4);
+        do Output.printString("Welcome to Blackjack! Press any key to start the game.");
+
+        while (key = 0) {
+            let startSeed = startSeed + 1;
+            let key = Keyboard.keyPressed();
+            do Sys.wait(20);
+        }
+
+        let startSeed = Math.abs(startSeed + key);
+
+        do Random.setSeed(startSeed);
+
+        do Screen.clearScreen();
+
+        let game = BlackjackGame.new();
+
+        do game.play();
+
+        return;
+    }
+}

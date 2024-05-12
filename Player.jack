@@ -1,0 +1,72 @@
+
+
+class Player {
+    field Hand hand;
+    field int money;
+    field int startBet;
+    field int bet;
+
+
+    constructor Player new(int playerStartMoney, int playerStartBet) {
+        let hand = Hand.new();
+
+        let money = playerStartMoney;
+        let startBet = playerStartBet;
+        let bet = playerStartBet;
+
+        return this;
+    }
+
+    method void addToHand(Card card) {
+        do hand.addCard(card);
+        return;
+    }
+
+    method void resetHand() {
+        let hand = Hand.new();
+        let bet = startBet;
+        return;
+    }
+
+    method void doubleDown() {
+        let bet = bet * 2;
+        return;
+    }
+
+    method void win() {
+        let money = money + bet;
+        return;
+    }
+
+    method void winBlackjack() {
+        let money = money + bet * 1.5;
+        return;
+    }
+
+    method void lose() {
+        let money = money - bet;
+        return;
+    }
+
+    method int getHandValue() {
+        return hand.getHandValue(true);
+    }
+
+    method int getMoney() {
+        return money;
+    }
+
+    method int getBet() {
+        return bet;
+    }
+
+    method void drawHand() {
+        do hand.drawHand(25, 150);
+        return;
+    }
+
+    method void printHand() {
+        do hand.printHand();
+        return;
+    }
+}

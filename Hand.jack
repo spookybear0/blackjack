@@ -1,0 +1,109 @@
+
+
+class Hand {
+    field Array cards;
+    field int cardsLength;
+
+    constructor Hand new() {
+        let cards = null;
+
+        return this;
+    }
+
+    method Array getCards() {
+        return cards;
+    }
+
+    method int getCardsLength() {
+        return cardsLength;
+    }
+
+    method void addCard(Card card) {
+        if (cards = null) {
+            let cards = Array.new(10);
+            let cards[0] = card;
+            let cardsLength = 1;
+        } else {
+            let cards[cardsLength] = card;
+            let cardsLength = cardsLength + 1;
+        }
+
+        return;
+    }
+    
+    method int getHandValue(boolean showFirstCard) {
+        var int value;
+        var int aceCount;
+        var int cardValue;
+        var int i;
+        var Card card;
+
+        let value = 0;
+        let aceCount = 0;
+        let i = 0;
+
+        if (~showFirstCard) {
+            let i = 1;
+        }
+        
+        while (i < cardsLength) {
+            let card = cards[i];
+            let cardValue = card.getValue();
+            // face cards are worth 10
+            if (cardValue > 10) {
+                let cardValue = 10;
+            }
+            // count the number of aces
+            if (cardValue = 1) {
+                let aceCount = aceCount + 1;
+            }
+            // add the card value to the total
+            let value = value + cardValue;
+            let i = i + 1;
+        }
+
+        // if the hand + 10 is less than or equal to 21, add 10 to the hand value for each ace
+
+        while (aceCount > 0) {
+            if (value + 10 < 22) {
+                let value = value + 10;
+                let aceCount = aceCount - 1;
+            } else {
+                let aceCount = 0;
+            }
+        }
+
+        return value;
+    }
+
+    method void drawHand(int x, int y) {
+        var int i;
+        var Card card;
+
+
+        let i = 0;
+        while (i < cardsLength) {
+            let card = cards[i];
+            do card.drawCard(x+(i*75), y, true);
+            let i = i + 1;
+        }
+
+        return;
+    }
+
+    method void printHand() {
+        var int i;
+        var Card card;
+
+        do Output.moveCursor(0, 0);
+
+        let i = 0;
+        while (i < cardsLength) {
+            let card = cards[i];
+            do card.printCard();
+            let i = i + 1;
+        }
+
+        return;
+    }
+}

@@ -1,0 +1,124 @@
+
+
+class Card {
+    field int value;
+    field int suit;
+
+    constructor Card new(int v, int s) {
+        let value = v;
+        let suit = s;
+
+        return this;
+    }
+
+    method int getValue() {
+        return value;
+    }
+
+    method int getSuit() {
+        return suit;
+    }
+
+    method void printCard() {
+        var int suit_;
+        var int value_;
+
+        let suit_ = getSuit();
+
+        if (suit_ = 0) {
+            do Output.printString("H");
+        } else {
+            if (suit_ = 1) {
+                do Output.printString("D");
+            } else {
+                if (suit_ = 2) {
+                    do Output.printString("C");
+                } else {
+                    do Output.printString("S");
+                }
+            }
+        }
+
+        let value_ = getValue();
+    
+        if (value_ = 1) {
+            do Output.printString("A");
+        } else {
+            if (value_ = 11) {
+                do Output.printString("J");
+            } else {
+                if (value_ = 12) {
+                    do Output.printString("Q");
+                } else {
+                    if (value_ = 13) {
+                        do Output.printString("K");
+                    } else {
+                        do Output.printInt(value_);
+                    }
+                }
+            }
+        }
+
+        do Output.printString(" ");
+
+        return;
+    }
+
+    method void drawCard(int topLeftX, int topLeftY, boolean faceUp) {
+        var int suit_;
+        var int value_;
+
+        // outer border
+        do Screen.drawLine(topLeftX, topLeftY, topLeftX + 48, topLeftY);
+        do Screen.drawLine(topLeftX, topLeftY, topLeftX, topLeftY + 72);
+        do Screen.drawLine(topLeftX + 48, topLeftY, topLeftX + 48, topLeftY + 72);
+        do Screen.drawLine(topLeftX, topLeftY + 72, topLeftX + 48, topLeftY + 72);
+
+        if (~faceUp) {
+            return;
+        }
+
+        // suit
+        
+        let suit_ = getSuit();
+        
+        do Output.moveCursor(topLeftY/11+1, topLeftX/8+1);
+        if (suit_ = 0) {
+            do Output.printString("H");
+        } else {
+            if (suit_ = 1) {
+                do Output.printString("D");
+            } else {
+                if (suit_ = 2) {
+                    do Output.printString("C");
+                } else {
+                    do Output.printString("S");
+                }
+            }
+        }
+
+        let value_ = getValue();
+
+        // value
+        do Output.moveCursor(topLeftY/11+5, topLeftX/8+3);
+        if (value_ = 1) {
+            do Output.printString("A");
+        } else {
+            if (value_ = 11) {
+                do Output.printString("J");
+            } else {
+                if (value_ = 12) {
+                    do Output.printString("Q");
+                } else {
+                    if (value_ = 13) {
+                        do Output.printString("K");
+                    } else {
+                        do Output.printInt(value_);
+                    }
+                }
+            }
+        }
+
+        return;
+    }
+}

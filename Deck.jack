@@ -1,0 +1,98 @@
+
+
+class Deck {
+    field Array cards;
+    field int cardsLength;
+    field int nextCardIndex;
+
+    constructor Deck new() {
+        let cards = Array.new(52);
+        let cardsLength = 52;
+        let nextCardIndex = 0;
+        do initializeDeck();
+        do shuffle();
+
+        return this;
+    }
+
+    method int remainder(int a, int b) {
+        if (a < b) {
+            return a;
+        } else {
+            return remainder(a - b, b);
+        }
+    }
+
+    method void initializeDeck() {
+        var int index;
+        var int suit;
+        var int rank;
+
+        let index = 0;
+        while (index < cardsLength) {
+            let suit = remainder(index, 4); // 0: hearts, 1: diamonds, 2: clubs, 3: spades
+            let rank = index / 4 + 1; // rank calculation
+            let cards[index] = Card.new(rank, suit);
+            let index = index + 1;
+        }
+        return;
+    }
+
+    method void shuffle() {
+        var int i;
+        var int j;
+        var Card temp;
+
+        let i = cardsLength - 1;
+        while (i > 0) {
+            let j = Random.randomInt(i);
+            let temp = cards[i];
+            let cards[i] = cards[j];
+            let cards[j] = temp;
+            let i = i - 1;
+        }
+        return;
+    }
+
+    method Card dealCard() {
+        var Card card;
+        let card = cards[nextCardIndex];
+        let nextCardIndex = nextCardIndex + 1;
+        let cardsLength = cardsLength - 1;
+
+        return card;
+    }
+
+    method void printDeck() {
+        var int i;
+        var int x;
+        var int y;
+        var Card card;
+        var int currentRow;
+
+        let i = 0;
+        let x = 0;
+        let y = 16;
+        let currentRow = 0;
+
+        while (i < cardsLength) {
+            let card = cards[i];
+
+            if (x*34 > 256) {
+                let y = y + 80;
+                let x = 0;
+                let currentRow = currentRow + 1;
+            }
+
+            if (currentRow > 2) {
+                return;
+            }
+
+            do card.drawCard(x*64, y, true);
+
+            let i = i + 1;
+            let x = x + 1;
+        }
+        return;
+    }
+}

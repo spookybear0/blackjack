@@ -1,0 +1,63 @@
+
+
+class Dealer {
+    field Hand hand;
+    field boolean showFirstCard;
+
+    constructor Dealer new() {
+        let hand = Hand.new();
+        let showFirstCard = false;
+        return this;
+    }
+
+    method void addToHand(Card card) {
+        do hand.addCard(card);
+        return;
+    }
+
+    method void resetHand() {
+        let hand = Hand.new();
+        return;
+    }
+
+    method int getHandValue() {
+        return hand.getHandValue(showFirstCard);
+    }
+
+    method void setShowFirstCard(boolean val) {
+        let showFirstCard = val;
+        return;
+    }
+
+    method void drawHand() {
+        var int i;
+        var Card card;
+        var Array cards;
+        var int cardsLength;
+        var boolean show;
+
+        let cards = hand.getCards();
+        let cardsLength = hand.getCardsLength();
+
+        let i = 0;
+        while (i < cardsLength) {
+            let card = cards[i];
+
+            if ((i = 0) & ~showFirstCard) {
+                do card.drawCard(25+(i*75), 25, false);
+            }
+            else {
+                do card.drawCard(25+(i*75), 25, true);
+            }
+
+            let i = i + 1;
+        }
+
+        return;
+    }
+
+    method void printHand() {
+        do hand.printHand();
+        return;
+    }
+}
