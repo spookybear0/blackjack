@@ -4,6 +4,14 @@ class Card {
     field int value;
     field int suit;
 
+    /*
+    * 0 = Hearts
+    * 1 = Diamonds
+    * 2 = Clubs
+    * 3 = Spades
+    * Card values are 1-13
+    * Creates a new card with the given value and suit
+    */
     constructor Card new(int v, int s) {
         let value = v;
         let suit = s;
@@ -11,14 +19,24 @@ class Card {
         return this;
     }
 
+
+    /*
+    * Returns the value of the card
+    */
     method int getValue() {
         return value;
     }
 
+    /*
+    * Returns the suit of the card
+    */
     method int getSuit() {
         return suit;
     }
 
+    /*
+    * Prints the card to the screen for debugging purposes
+    */
     method void printCard() {
         var int suit_;
         var int value_;
@@ -64,6 +82,10 @@ class Card {
         return;
     }
 
+    /*
+    * Draws the card on the screen at the given location
+    * If faceUp is false, the card is drawn face down (without value or suit)
+    */
     method void drawCard(int topLeftX, int topLeftY, boolean faceUp) {
         var int suit_;
         var int value_;

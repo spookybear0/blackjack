@@ -4,31 +4,55 @@ class Dealer {
     field Hand hand;
     field boolean showFirstCard;
 
+    /*
+    * Constructor for the Dealer class
+    * @return Dealer
+    */
     constructor Dealer new() {
         let hand = Hand.new();
         let showFirstCard = false;
         return this;
     }
 
+    /*
+    * Method to deal a card to the dealer
+    * @param Card card
+    */
     method void addToHand(Card card) {
         do hand.addCard(card);
         return;
     }
 
+    /*
+    * Reset the hand of the dealer
+    */
     method void resetHand() {
         let hand = Hand.new();
         return;
     }
 
+    /*
+    * Gets the value of the dealer's hand
+    * @return int
+    */
     method int getHandValue() {
         return hand.getHandValue(showFirstCard);
     }
 
+    /*
+    * Sets if the first card should be shown
+    * In blackjack, the first card of the dealer is hidden until their turn
+    * @param boolean val
+    */
     method void setShowFirstCard(boolean val) {
         let showFirstCard = val;
         return;
     }
 
+    /*
+    * Draws the dealer's hand with card representations
+    * @return boolean
+    */
     method void drawHand() {
         var int i;
         var Card card;
@@ -56,6 +80,9 @@ class Dealer {
         return;
     }
 
+    /*
+    * Prints the dealer's hand to the screen for debugging
+    */
     method void printHand() {
         do hand.printHand();
         return;

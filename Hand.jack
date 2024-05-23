@@ -4,20 +4,36 @@ class Hand {
     field Array cards;
     field int cardsLength;
 
+    /*
+    * Constructor for Hand
+    * @return Hand
+    */
     constructor Hand new() {
         let cards = null;
 
         return this;
     }
 
+    /*
+    * Gets the cards in the hand
+    * @return Array
+    */
     method Array getCards() {
         return cards;
     }
 
+    /*
+    * Gets the number of cards in the hand
+    * @return int
+    */
     method int getCardsLength() {
         return cardsLength;
     }
 
+    /*
+    * Adds a card to the hand
+    * @param Card card
+    */
     method void addCard(Card card) {
         if (cards = null) {
             let cards = Array.new(10);
@@ -31,6 +47,9 @@ class Hand {
         return;
     }
     
+    /*
+    * Systematically gets the value of the hand, taking into account the value of aces
+    */
     method int getHandValue(boolean showFirstCard) {
         var int value;
         var int aceCount;
@@ -76,6 +95,11 @@ class Hand {
         return value;
     }
 
+    /*
+    * Draws the hand to the screen with a card graphic
+    * @param int x
+    * @param int y
+    */
     method void drawHand(int x, int y) {
         var int i;
         var Card card;
@@ -91,6 +115,9 @@ class Hand {
         return;
     }
 
+    /*
+    * Draws the hand to the screen with simple ASCII
+    */
     method void printHand() {
         var int i;
         var Card card;

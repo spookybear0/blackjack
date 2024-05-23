@@ -4,15 +4,24 @@ class Random {
     static int seed;
     static Random instance;
 
+    /*
+    * Set the initial seed for the random number generator.
+    */
     function void setSeed(int seed_) {
         let seed = seed_;
         return;
     }
 
+    /*
+    * Get the current seed for the random number generator.
+    */
     function int getSeed() {
         return seed;
     }
 
+    /*
+    * Modulo operation.
+    */
     function int remainder(int a, int b) {
         if (a < b) {
             return a;
@@ -21,6 +30,9 @@ class Random {
         }
     }
 
+    /*
+    * Generate a random number between 0 and 32767.
+    */
     function int rand() {
         // values don't exceed 32767
         let seed = seed + 20251;
@@ -31,6 +43,9 @@ class Random {
         return seed;
     }
 
+    /*
+    * Generate a random number between 0 and upper.
+    */
     function int randomInt(int upper) {
         var int mask;
         var int result;

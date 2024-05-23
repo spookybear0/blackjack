@@ -1,6 +1,9 @@
 
 
 class Main {
+    /*
+    * Main function that starts the game
+    */
     function void main() {
         var BlackjackGame game;
         var int key;

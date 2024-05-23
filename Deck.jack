@@ -5,6 +5,9 @@ class Deck {
     field int cardsLength;
     field int nextCardIndex;
 
+    /*
+    * Constructor for the Deck.
+    */
     constructor Deck new() {
         let cards = Array.new(52);
         let cardsLength = 52;
@@ -15,6 +18,9 @@ class Deck {
         return this;
     }
 
+    /*
+    * Helper method to calculate the remainder of a division.
+    */
     method int remainder(int a, int b) {
         if (a < b) {
             return a;
@@ -23,6 +29,10 @@ class Deck {
         }
     }
 
+    /*
+    * Initalizes the deck with 52 cards.
+    * 13 cards of each suit.
+    */
     method void initializeDeck() {
         var int index;
         var int suit;
@@ -38,6 +48,9 @@ class Deck {
         return;
     }
 
+    /*
+    * Shuffles the deck.
+    */
     method void shuffle() {
         var int i;
         var int j;
@@ -54,6 +67,10 @@ class Deck {
         return;
     }
 
+    /*
+    * Deals a card from the deck.
+    * @return Card
+    */
     method Card dealCard() {
         var Card card;
         let card = cards[nextCardIndex];
@@ -63,6 +80,9 @@ class Deck {
         return card;
     }
 
+    /*
+    * Prints the deck for debugging purposes.
+    */
     method void printDeck() {
         var int i;
         var int x;

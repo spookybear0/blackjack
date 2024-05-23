@@ -6,7 +6,12 @@ class Player {
     field int startBet;
     field int bet;
 
-
+    /*
+    * Constructor for the Player class
+    * @param playerStartMoney - the amount of money the player starts with
+    * @param playerStartBet - the amount of money the player starts betting with
+    * @return Player - the player object
+    */
     constructor Player new(int playerStartMoney, int playerStartBet) {
         let hand = Hand.new();
 
@@ -17,54 +22,89 @@ class Player {
         return this;
     }
 
+    /*
+    * Method to add a card to the player's hand
+    * @param card - the card to be added to the player's hand
+    */
     method void addToHand(Card card) {
         do hand.addCard(card);
         return;
     }
 
+    /*
+    * Method to reset the player's hand back to an empty hand and reset the bet to the starting bet
+    */
     method void resetHand() {
         let hand = Hand.new();
         let bet = startBet;
         return;
     }
 
+    /*
+    * Method to double the player's bet
+    */
     method void doubleDown() {
         let bet = bet * 2;
         return;
     }
 
+    /*
+    * What happens when the player wins
+    */
     method void win() {
         let money = money + bet;
         return;
     }
 
+    /*
+    * What happens when the player wins with a blackjack
+    * Blackjack pays 1.5 times the bet
+    */
     method void winBlackjack() {
         let money = money + bet * 1.5;
         return;
     }
 
+    /*
+    * What happens when the player loses
+    */
     method void lose() {
         let money = money - bet;
         return;
     }
 
+    /*
+    * Get the value of the player's hand (A=1/11, J/Q/K=10, 2-10=2-10)
+    */
     method int getHandValue() {
         return hand.getHandValue(true);
     }
 
+    /*
+    * Getters for the player's money
+    */
     method int getMoney() {
         return money;
     }
 
+    /*
+    * Getters for the player's bet
+    */
     method int getBet() {
         return bet;
     }
 
+    /*
+    * Draws the card graphics for the player's hand
+    */
     method void drawHand() {
         do hand.drawHand(25, 150);
         return;
     }
 
+    /*
+    * Prints the player's hand simply
+    */
     method void printHand() {
         do hand.printHand();
         return;
