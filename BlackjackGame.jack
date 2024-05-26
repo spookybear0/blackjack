@@ -220,7 +220,7 @@ class BlackjackGame {
                 }
             }
 
-            do Sys.wait(3000);
+            do Sys.wait(250);
 
             // wait for a key press
 
